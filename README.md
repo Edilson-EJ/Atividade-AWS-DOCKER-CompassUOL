@@ -225,6 +225,37 @@ Passo 9: Número de instância:
 
 Passo 10: Criar Instância.
 
+# Associando IPs elásticos as Instância
+
+1. Criar um Endereço IP Elástico: 
+
+- No menu de serviços, vá para "EC2" clicando em "Serviços" e depois em "EC2" ou pesquisando por "EC2".
+
+- No painel de navegação esquerdo, clique em "Elastic IPs" sob "Network & Security".
+
+- Clique no botão "Allocate new address" na parte superior da página.
+
+- Escolha "Amazon's pool of IPv4 addresses" e clique em "Allocate".
+
+2. Associar o Endereço IP Elástico a uma Instância EC2:
+
+- No painel de navegação esquerdo, clique em "Instances" sob "Instances" para ver suas instâncias EC2.
+
+- Selecione a instância EC2 à qual você deseja associar o endereço IP elástico.
+
+- No menu "Actions" (Ações), vá até "Networking" e selecione "Manage IP addresses".
+
+- Clique em "Associate new address".
+
+- No campo "Instance", selecione a instância EC2 à qual deseja associar o endereço IP elástico.
+
+- No campo "Private IP address", selecione o IP privado da instância (ou deixe em branco para usar o IP primário da instância).
+
+- Clique em "Associate".
+
+            - 44.196.14.149 ID da instância  i-0c7d2b41401fccfa8
+            - 55.88.183.232 ID da instância  i-07dce8fa625ea956f
+
 
 
 
