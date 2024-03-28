@@ -257,5 +257,134 @@ Passo 10: Criar Instância.
             - 55.88.183.232 ID da instância  i-07dce8fa625ea956f
 
 
+# ssh: connect to host 55.88.183.232 port 22: Connection timed out
+
+1: No Console de Gerenciamento da AWS, vá para o serviço "VPC".
+
+2: No painel de navegação à esquerda, clique em "Tabelas de roteamento".
+
+3: Selecione a tabela de roteamento associada à sua sub-rede.
+
+                - VPC aws-docker
+
+4: Clique no botão "Editar rotas".
+
+5: Adicione uma nova rota com destino 0.0.0.0/0 e selecione o Internet Gateway como alvo. Certifique-se de salvar as alterações após adicionar a rota.
+
+                - 0.0.0.0/0
+
+6: Reinicie as instancias
+
+# Acessa a Instancia
+
+Passo 1: Acesse o PowerShell como administrador.
+
+Passo 2: Execute o comando SSH completo para se conectar à instância EC2.
+
+        ssh -i "C:\Users\edils\Desktop\chaves-aws\KeySSH01.pem" ec2-user@55.88.183.232
+
+
+# Crie um banco de dados MySQL no RDS:
+
+Passo 1: Vá para o Console de Gerenciamento da AWS.
+
+Passo 2: Selecione o serviço "RDS".
+
+Passo 3: Clique em "Criar banco de dados".
+
+Passo 4: Escolher um método de criação de banco de dados.
+
+        - Criação Padrão
+
+Passo 4: Opções do mecanismo.
+
+        - MySQL
+
+Passo 5: Opções do mecanismo.
+
+        5.1 Nome do usuário principal
+
+                - admin
+
+        5.2 Select the encryption key
+
+                - Padrão
+        
+Passo 6: Conectividade
+
+        - Não se conectar a um recurso de computação do EC2
+
+        6.1 Grupo de segurança de VPC (firewall)
+
+                - security-group-aws-docker
+
+        6.2 Zona de disponibilidade
+
+                - us-east-1a
+
+
+# Sua solicitação para criar a instância de banco de dados aws-docker-database não foi bem-sucedida.
+
+Descrição: The DB subnet group doesn't meet Availability Zone (AZ) coverage requirement. Current AZ coverage: us-east-1a. Add subnets to cover at least 2 AZs.
+
+1: Acesse o RDS:
+
+- Vá para o serviço "RDS" no Console de Gerenciamento da AWS.
+
+2: Navegue para "Subnet Groups" (Grupos de Sub-redes):
+
+- No painel de navegação à esquerda, clique em "Subnet Groups" sob a seção "Network & Security" (Rede e Segurança).
+
+- Clique em criar 
+
+        2.1 Detalhes do grupo de sub-redes
+
+        nome: sub-rede-db-aws-docker
+
+
+3: Selecione o Grupo de Sub-redes:
+
+- Selecione o grupo de sub-redes associado à instância do banco de dados aws-docker-database.
+
+        - VPC: aws-docker
+
+4: Adicione Sub-redes em Outras AZs:
+
+- Adicione sub-redes em diferentes AZs para cobrir pelo menos duas AZs na região us-east-1 (Norte da Virgínia).
+
+        - us-east-1a
+
+        - us-east-1b
+
+        - us-east-1c
+
+- Certifique-se de que as sub-redes adicionadas estejam em AZs diferentes e estejam corretamente configuradas para permitir a conectividade com o RDS.
+
+5: Salve as Alterações:
+
+- Depois de adicionar as sub-redes necessárias, salve as alterações no grupo de sub-redes.
+
+# Sua solicitação para criar um grupo de banco de dados sub-rede-db-aws-docker falhou.
+
+Descrição: modifica o grupo de segurança para permitir a porta do MySql.
+
+Passo 1: Editar Regra.
+
+        - Selecione MySql - porta 3306
+
+Passo 2: Salve as Alterações
+
+# Sub-redes - para adiciona 3 zonas de disponibilidades.
+
+                - sub-rede-us-east-1a
+
+                - sub-rede-us-east-1b
+
+                - sub-rede-us-east-1c
+
+
+
+
+
 
 
