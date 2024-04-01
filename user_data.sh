@@ -2,9 +2,12 @@
 
 # Instalar Docker
 sudo yum update -y
-sudo amazon-linux-extras install docker -y
-sudo service docker start
+sudo yum install docker -y
 sudo usermod -a -G docker ec2-user
+
+# Ativar docker
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
 
 # Iniciar contêiner WordPress
 sudo docker run -d \
@@ -15,5 +18,3 @@ sudo docker run -d \
   -p 80:80 \
   wordpress:latest
 
- iniciar na inicialização
-sudo systemctl enable docker
