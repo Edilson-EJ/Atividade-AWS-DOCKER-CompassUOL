@@ -281,7 +281,12 @@ Passo 1: Acesse o PowerShell como administrador.
 
 Passo 2: Execute o comando SSH completo para se conectar à instância EC2.
 
-        ssh -i "C:\Users\edils\Desktop\chaves-aws\KeySSH01.pem" ec2-user@55.88.183.232
+        - cd C:\Users\edils\Desktop\chaves-aws
+
+        - ssh -i "keySSH01.pem" ec2-user@44.196.14.149
+
+        - ssh -i "keySSH01.pem" ec2-user@54.88.183.232
+
 
 
 # Crie um banco de dados MySQL no RDS:
@@ -384,7 +389,44 @@ Passo 2: Salve as Alterações
 
 
 
+# Identificador da instância de banco de dados - RDS
+
+                - database-aws-docker
+
+# Script Atualizador
+
+        #!/bin/bash
+
+        # Instalar Docker
+        sudo yum update -y
+        sudo amazon-linux-extras install docker -y
+        sudo service docker start
+        sudo usermod -a -G docker ec2-user
+
+        # Iniciar contêiner WordPress
+        sudo docker run -d \
+        -e WORDPRESS_DB_HOST=database-aws-docker.cb46cmyuqm96.us-east-1.rds.amazonaws.com \
+        -e WORDPRESS_DB_USER=root \
+        -e WORDPRESS_DB_PASSWORD=Pa$$w0rd \
+        -e WORDPRESS_DB_NAME=database-aws-docker \
+        -p 80:80 \
+        wordpress:latest
 
 
+# Substituir o arquivo do script 
+
+1: instância 
+
+2: Certifique-se de que o script user_data.sh esteja no diretório desejado na instância.
+
+3: Vá para o console da AWS e encontre a instância que você deseja configurar.
+
+4: Selecione a instância e clique em "Actions" (Ações) -> "Instance settings" (Configurações da instância) -> "Edit user data" (Editar dados de usuário).
+
+5: Na janela de edição, cole o conteúdo do seu script user_data.sh.
+
+6: Clique em "Save" (Salvar) para aplicar as alterações.
+
+7: Reinicie a instância para que o novo script seja executado.
 
 
