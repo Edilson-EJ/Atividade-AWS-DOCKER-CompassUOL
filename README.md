@@ -56,7 +56,7 @@ Deploy da Aplicação Wordpress:
 
 - Especifique um bloco de endereço  para a sua VPC.
 
-        - Bloco 10.0.0.0/24
+        - Bloco 172.31.0.0/16
 
 - Certifique-se de escolher um que não entre em conflito com outras redes que você possa estar usando.
 
@@ -90,8 +90,8 @@ Depois de preencher os detalhes, clique em "Create VPC" para criar a VPC.
 
 - Escolha o bloco de endereços CIDR para a sub-rede. Certifique-se de que este bloco esteja contido no bloco de endereços CIDR da sua VPC e não entre em conflito com outras sub-redes.
 
-        - Bloco: (10.0.0.0/24)
-        - Bloco CIDR IPv4 da sub-rede: (10.0.0.0/28)
+        - Bloco: (172.31.0.0/16)
+        - Bloco CIDR IPv4 da sub-rede: (172.31.0.0/16)
 
 - Selecione a zona de disponibilidade para a sub-rede.
 
@@ -139,14 +139,6 @@ No painel de navegação à esquerda, clique em "Security Groups" sob a seção 
         - Tipo: HTTP, Protocolo: TCP, Porta: 80, Origem: 0.0.0.0/0
 
         - Tipo: HTTPS, Protocolo: TCP, Porta: 443, Origem: 0.0.0.0/0
-
-        - Tipo: NFS, Protocolo: TCP, Porta: 2049, Origem: 0.0.0.0/0
-
-        - Tipo: NFS, Protocolo: UDP, Porta: 2049, Origem: 0.0.0.0/0
-
-        - Tipo: RPC, Protocolo: TCP, Porta: 111, Origem: 0.0.0.0/0
-
-        - Tipo: RPC, Protocolo: UDP, Porta: 111, Origem: 0.0.0.0/0
 
 7: Salve as alterações:
 
@@ -253,8 +245,8 @@ Passo 10: Criar Instância.
 
 - Clique em "Associate".
 
-            - 44.196.14.149 ID da instância  i-0c7d2b41401fccfa8
-            - 55.88.183.232 ID da instância  i-07dce8fa625ea956f
+            - 3.220.23.112 ID da instância  i-03dc3fcd63e041e23 (AWS-DOCKER-2)
+            - 52.54.246.229 ID da instância   i-0a8b4b0cc655728cb (AWS-DOCKER-2)
 
 
 # ssh: connect to host 55.88.183.232 port 22: Connection timed out
@@ -427,6 +419,6 @@ Passo 2: Salve as Alterações
 
 6: Clique em "Save" (Salvar) para aplicar as alterações.
 
-7: Reinicie a instância para que o novo script seja executado.
+7: Iniciar a instância para que o novo script seja executado.
 
 
