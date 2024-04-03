@@ -17,4 +17,3 @@ sudo docker run -d \
   -e WORDPRESS_DB_NAME=database-aws-docker \
   -p 80:80 \
   wordpress:latest
-
