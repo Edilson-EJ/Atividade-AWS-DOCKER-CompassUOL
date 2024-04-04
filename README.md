@@ -421,4 +421,110 @@ Passo 2: Salve as Alterações
 
 7: Iniciar a instância para que o novo script seja executado.
 
+# Criação de Novos Documentos
+
+# Script Instalação do Docker
+
+        #!/bin/bash
+
+        # Atualizar pacotes
+        sudo yum update -y
+
+        # Instalar Docker
+        sudo yum install -y docker
+
+        # Iniciar serviço Docker
+        sudo service docker start
+
+        # Adicionar usuário ao grupo docker
+        sudo usermod -a -G docker ec2-user
+
+# Docker Compose - WordPress
+
+        version: '3'
+
+        services:
+        wordpress:
+        image: wordpress
+        ports:
+        - "8080:80"
+        env_file:
+        - rds_config.env
+        volumes:
+        - wordpress_data:/var/www/html
+
+        db:
+        image: mysql:5.7
+        environment:
+        MYSQL_ROOT_PASSWORD: "Pa$$w0rd" 
+        MYSQL_DATABASE: "database-aws-docker" 
+        MYSQL_USER: "root" 
+        MYSQL_PASSWORD: "Pa$$w0rd" 
+
+        volumes:
+        wordpress_data:
+
+# RDS Configurações
+
+        WORDPRESS_DB_HOST=database-aws-docker.cb46cmyuqm96.us-east-1.rds.amazonaws.com
+        WORDPRESS_DB_USER=root
+        WORDPRESS_DB_PASSWORD=Pa$$w0rd
+        WORDPRESS_DB_NAME=database-aws-docker
+
+
+# Atualizações 
+
+ - Após atualizar o script, ele inicializou e instalou o docker na instancia via script.
+
+                - ssh -i "C:\Users\edils\Desktop\chaves-aws\keySSH01.pem" ec2-user@3.220.23.112
+
+
+                - Docker version 25.0.3, build 
+                
+
+# Criação do Burket S3
+
+1: No console, vá para o serviço "S3" clicando em "Services" na barra de navegação superior e selecionando "S3" na seção "Storage".
+
+2: No painel de controle do Amazon S3, clique no botão "Create bucket" (Criar bucket).
+ 
+3: Na página "Create bucket", você precisará configurar algumas opções:
+
+        Bucket name: Escolha um nome único para o bucket. Este nome deve ser globalmente exclusivo em todo o Amazon S3.
+
+        - atividade-docker-linux
+
+
+        Region: Escolha a região na qual deseja criar o bucket. A região padrão é selecionada automaticamente, mas você pode escolher uma região diferente, se desejar.
+
+
+4: Após configurar as opções desejadas, clique no botão "Create bucket" (Criar bucket) para criar o bucket.
+
+5: Após alguns instantes, o seu bucket será criado e você receberá uma confirmação no Console de Gerenciamento da AWS.
+
+# Instale o AWS CLI no windows 
+
+1: vá no site e faça o download 
+
+        - https://aws.amazon.com/pt/cli/
+
+2: faça todo o processo de instalação
+
+# Para adicionar o diretório de instalação do AWS CLI ao PATH no Windows, siga estas etapas:
+
+1: Encontre o diretório de instalação do AWS CLI: Normalmente, o AWS CLI é instalado em C:\Program Files\Amazon\AWSCLIV2 ou em um diretório semelhante. Você precisa encontrar o diretório onde o AWS CLI foi instalado em seu sistema.
+
+2: Abra as configurações do sistema avançadas: Pressione as teclas Win + R para abrir a caixa de diálogo Executar e digite sysdm.cpl. Isso abrirá a janela Propriedades do Sistema.
+
+2: Acesse as variáveis de ambiente: Na janela Propriedades do Sistema, clique na guia "Avançado" e depois no botão "Variáveis de Ambiente".
+
+3: Edite as variáveis de ambiente do usuário: Na seção "Variáveis de Ambiente", você verá duas listas: "Variáveis de usuário para [edilson]" e "Variáveis do sistema". Selecione "Path" na lista de variáveis de usuário e clique em "Editar".
+
+4: Adicione o diretório de instalação do AWS CLI: Na janela "Editar Variável de Ambiente", clique em "Novo" e adicione o caminho para o diretório de instalação do AWS CLI. Por exemplo, se o AWS CLI foi instalado em C:\Program Files\Amazon\AWSCLIV2, adicione este caminho à lista.
+
+5: Salve as alterações: Depois de adicionar o caminho, clique em "OK" em todas as janelas para salvar as alterações e fechar as janelas de configuração do sistema.
+
+6: Verifique se o PATH foi configurado corretamente: Abra um novo terminal ou prompt de comando e digite aws --version para verificar se o AWS CLI pode ser executado de qualquer diretório. Se você vir a versão instalada do AWS CLI, isso significa que o PATH foi configurado corretamente.
+
+
 
