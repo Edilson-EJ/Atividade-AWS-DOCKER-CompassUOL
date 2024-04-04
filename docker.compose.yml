@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  wordpress:
+    image: wordpress
+    ports:
+      - "8080:80"
+    env_file:
+      - rds_config.env
+    volumes:
+      - wordpress_data:/var/www/html
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: "Pa$$w0rd" 
+      MYSQL_DATABASE: "database-aws-docker" 
+      MYSQL_USER: "root" 
+      MYSQL_PASSWORD: "Pa$$w0rd" 
+
+volumes:
+  wordpress_data:
