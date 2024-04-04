@@ -526,5 +526,168 @@ Passo 2: Salve as Alterações
 
 6: Verifique se o PATH foi configurado corretamente: Abra um novo terminal ou prompt de comando e digite aws --version para verificar se o AWS CLI pode ser executado de qualquer diretório. Se você vir a versão instalada do AWS CLI, isso significa que o PATH foi configurado corretamente.
 
+# Criando o arquivo docker composse
+
+1: Crie o arquivo docker-compose.yml: 
+
+        - nano docker-compose.yml
+
+        - cole o script aqui 
+
+        - ctrl o
+
+        - ctrl x
+
+2:Crie o script: Após criar o arquivo docker-compose.yml, você pode criar um script para executar o Docker Compose. 
+
+        - nano start.sh
+
+2.1 Script
+
+        #!/bin/bash
+
+        # Caminho do arquivo
+        cd /home/ec2-user
+
+        # Executar o Docker Compose
+        docker-compose up -d
+
+2.3 Salvar
+
+        - ctrl o
+
+        - ctrl x
+
+3: Conceda permissão de execução ao script:
+
+        - chmod +x start.sh
+
+4: ./start.sh
+
+
+# Para configurar o Amazon Elastic File System (EFS) para armazenar os arquivos estáticos do contêiner da aplicação WordPress;
+
+1: Crie um sistema de arquivos EFS:
+
+2: Vá para o Console de Gerenciamento da AWS, acesse o serviço EFS e crie um novo sistema de arquivos. Siga as instruções para configurar o sistema de arquivos. Lembre-se de selecionar a mesma VPC em que sua instância EC2 está localizada e adicionar uma ou mais sub-redes a ele.
+
+                - nome: efs-aws-docker
+
+                - sub-rede: aws-docker-2
+
+3: Monte o sistema de arquivos EFS na instância EC2:
+
+3.1: Instale o pacote NFS Ut
+
+                - sudo yum install nfs-utils
+
+3.2: Crie um ponto de montagem para o EFS e monte o sistema de arquivos
+
+                - sudo mkdir /mnt/efs
+
+                - sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 fs-013e528795248ca97:/ /mnt/efs
+
+# Erro mount.nfs4: Failed to resolve server fs-013e528795248ca97: Name or service not known
+
+1: Grupos de segurança
+
+2: Editar Regras 
+
+                - Porta: 2049 - EFS
+
+3: Salvar.
+
+
+# atualização do script:  
+
+        version: '3'
+
+        services:
+                wordpress:
+                image: wordpress
+                ports:
+                        - "8080:80"
+                env_file:
+                        - rds_config.env
+                volumes:
+                        - /mnt/efs:/var/www/html/wp-content
+                
+                db:
+                  image: mysql:5.7
+                  environment:
+                        MYSQL_ROOT_PASSWORD: "Pa$$w0rd"
+                        MYSQL_DATABASE: "database-aws-docker"
+                        MYSQL_USER: "root"
+                        MYSQL_PASSWORD: "Pa$$w0rd"
+
+
+
+- rds_config.env
+
+        WORDPRESS_DB_HOST=database-aws-docker.cb46cmyuqm96.us-east-1.rds.amazonaws.com
+        WORDPRESS_DB_USER=root
+        WORDPRESS_DB_PASSWORD=Pa$$w0rd
+        WORDPRESS_DB_NAME=database-aws-docker
+
+# Load Balancer
+
+1: Crie um Load Balancer:
+
+- Acesse o console da AWS e vá para o serviço Elastic Load Balancing (ELB).
+
+- Clique em "Criar carregador de balanceamento de carga".
+
+- Selecione o tipo de balanceador de carga que deseja criar (Classic Load Balancer, Application Load Balancer ou Network Load Balancer).
+
+                - Classic Load Balancer
+
+- Configure os detalhes do balanceador de carga, como nome, esquema (Internet-facing ou internal), endereço IP, portas, etc.
+
+                - Nome do load balancer: load-balancer-aws-docker
+
+                - Mapeamento de rede : aws-docker-2
+
+                - Grupos de segurança: seguranca-aws-docker-2
+ 
+
+- Selecione as instâncias EC2 para o seu balanceador de carga. No seu caso, selecione as instâncias onde o contêiner do WordPress está sendo executado.
+
+        - Instâncias (2)
+
+        - i-03dc3fcd63e041e23 (ID instancia)
+
+        - i-03dc3fcd63e041e23 (ID instancia)
+
+- Configure os grupos de segurança para permitir o tráfego para as instâncias EC2 através do Load Balancer.
+
+- Crie o Load Balancer.
+
+2: Configurar os Pontos de Verificação de Saúde (Health Checks):
+
+- Configure os pontos de verificação de saúde para verificar o status das instâncias EC2.
+
+- Isso garante que apenas instâncias saudáveis ​​recebam tráfego do balanceador de carga.
+
+3: Configurar Listeners e Target Groups:
+
+- Configure os listeners para o seu Load Balancer (por exemplo, HTTP na porta 80).
+
+- Crie target groups para encaminhar o tráfego do Load Balancer para as instâncias EC2.
+
+- Configure os target groups para usar os pontos de verificação de saúde e definir o protocolo e a porta das instâncias EC2.
+
+4: Configurar Roteamento e DNS:
+
+- Configure o roteamento para direcionar o tráfego para o Load Balancer.
+
+- Isso pode ser feito por meio de um registro de DNS que aponta para o nome do seu Load Balancer.
+
+5: Testar o Load Balancer:
+
+- Certifique-se de que o Load Balancer está distribuindo o tráfego corretamente para as instâncias EC2.
+
+- Verifique se o WordPress está acessível através do Load Balancer.
+
+
 
 

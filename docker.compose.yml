@@ -8,15 +8,12 @@ services:
     env_file:
       - rds_config.env
     volumes:
-      - wordpress_data:/var/www/html
-
+      - /mnt/efs:/var/www/html/wp-content
+    
   db:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: "Pa$$w0rd" 
-      MYSQL_DATABASE: "database-aws-docker" 
-      MYSQL_USER: "root" 
-      MYSQL_PASSWORD: "Pa$$w0rd" 
-
-volumes:
-  wordpress_data:
+      MYSQL_ROOT_PASSWORD: "Pa$$w0rd"
+      MYSQL_DATABASE: "database-aws-docker"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "Pa$$w0rd"
